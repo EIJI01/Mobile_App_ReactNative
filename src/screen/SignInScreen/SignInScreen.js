@@ -1,8 +1,16 @@
 import React, {useState} from 'react';
-import {Text, View, Image, StyleSheet, useWindowDimensions} from 'react-native';
-import Logo from '../../../assets/images/Logo_2.png';
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  useWindowDimensions,
+  Linking,
+} from 'react-native';
+import Logo from '../../../assets/images/Logo_3.png';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
+import Link from '../../components/LinkButton/Link';
 
 const SignInScreen = () => {
   const {username, setUsername} = useState('');
@@ -12,7 +20,7 @@ const SignInScreen = () => {
     console.log('Sign In');
   };
   const forgotPassword = () => {
-    console.log('Forgot Password');
+    Linking.openURL('http://google.com');
   };
   const onSignInOTP = () => {
     console.log('Sign In With SOS');
@@ -20,6 +28,10 @@ const SignInScreen = () => {
   const onSignInGoogle = () => {
     console.log('Sign In With Google');
   };
+  const createAccount = () => {
+    Linking.openURL('http://google.com');
+  };
+
   return (
     <View style={style.root}>
       <Image
@@ -39,22 +51,19 @@ const SignInScreen = () => {
         secureTextEntry
       />
       <CustomButton text="Sign In" onPress={onSignInPress} />
-      <CustomButton
-        text="Forgot password"
-        onPress={forgotPassword}
-        type="TERTIARY"
-      />
+      <Link nameLink="Forgot password" onPress={forgotPassword} />
+      <Link nameLink="Create Account" onPress={createAccount} />
       <CustomButton
         text="Sign In OTP"
         onPress={onSignInOTP}
-        bgColor="#E7EAF4"
+        bgColor="#FAB5B5"
         fgColor="#DD4D44"
       />
       <CustomButton
         text="Sign With Google"
         onPress={onSignInGoogle}
-        bgColor="#FAE9EA"
-        fgColor="green"
+        bgColor="#B9DCF4"
+        fgColor="blue"
       />
     </View>
   );

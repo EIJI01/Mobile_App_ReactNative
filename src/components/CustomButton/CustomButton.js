@@ -30,7 +30,7 @@ const style = StyleSheet.create({
     borderRadius: 20,
   },
   container_PRIMARY: {
-    backgroundColor: '#3B71F3',
+    backgroundColor: '#E06A6A',
   },
   container_TERTIARY: {},
 
