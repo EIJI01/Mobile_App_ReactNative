@@ -76,7 +76,7 @@ const style = StyleSheet.create({
   },
   logo: {
     width: '70%',
-    maxWidth: 300,
+    maxWidth: 500,
     maxHeight: 200,
   },
 });

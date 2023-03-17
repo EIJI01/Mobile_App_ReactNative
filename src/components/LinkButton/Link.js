@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
-const Link = ({nameLink, onPress, type}) => {
+const Link = ({nameLink, onPress}) => {
   return (
     <View style={style.container}>
       <Text onPress={onPress} style={style.text}>
@@ -13,7 +13,7 @@ const Link = ({nameLink, onPress, type}) => {
 const style = StyleSheet.create({
   container: {
     backgroundColor: '#FFEAEA',
-    margin: 3,
+    marginVertical: 3,
   },
   text: {
     textAlign: 'center',
