@@ -13,7 +13,9 @@ import CustomButton from '../../components/CustomButton';
 import {Text} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
-
+import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {auth, db} from '../../../database/firebaseDB';
+import {doc, setDoc} from 'firebase/firestore';
 const SignUpScreenHome = () => {
   // const [username, setUsername] = useState('');
   // const [email, setEmail] = useState('');
@@ -22,12 +24,25 @@ const SignUpScreenHome = () => {
   const {height} = useWindowDimensions();
   const navigation = useNavigation();
   const {control, handleSubmit, watch} = useForm();
-
   const pwd = watch('password');
 
   const onSignInSignUp = data => {
     console.log(data);
+    createUserWithEmailAndPassword(auth, data.Email, data.password).then(
+      userCredential => {
+        console.log('user credential', userCredential);
+        const user = userCredential._tokenResponse.Email;
+        const myUserUid = auth.currentUser.uid;
+        setDoc(
+          doc(db, 'users', `${myUserUid}`, {
+            email: user,
+            password: data.password,
+          }),
+        );
+      },
+    );
   };
+
   const onBackSignIn = () => {
     console.log('Back Sign In');
     navigation.navigate('SignIn');
@@ -55,7 +70,7 @@ const SignUpScreenHome = () => {
               name="Email"
               placeholder="    Email"
               control={control}
-              rules={{pattern: {value: EMAIL_REGEX, massage: '@kkumail.com'}}}
+              rules={{pattern: {value: EMAIL_REGEX, message: '@kkumail.com'}}}
             />
             <CustomInput
               name="password"

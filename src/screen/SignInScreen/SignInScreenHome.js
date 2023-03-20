@@ -15,6 +15,8 @@ import CustomButton from '../../components/CustomButton';
 import Link from '../../components/LinkButton/Link';
 import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
+import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {auth, db} from '../../../database/firebaseDB';
 
 const SignInScreenHome = () => {
   // const [username, setUsername] = useState('');

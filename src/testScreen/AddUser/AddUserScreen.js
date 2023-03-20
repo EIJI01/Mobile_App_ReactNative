@@ -4,13 +4,6 @@ import {ThemeProvider, Button, Input, Image} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Text} from 'react-native';
 import Logo from '../../../assets/images/Logo_3.png';
-import {
-  app,
-  db,
-  getFirestore,
-  collection,
-  addDoc,
-} from '../../../database/firebaseDB';
 
 class AddUserScreen extends Component {
   constructor() {
