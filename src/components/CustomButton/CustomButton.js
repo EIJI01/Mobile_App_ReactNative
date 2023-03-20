@@ -28,6 +28,7 @@ const style = StyleSheet.create({
     padding: 15,
     marginVertical: 15,
     borderRadius: 20,
+    marginVertical: 5,
   },
   container_PRIMARY: {
     backgroundColor: '#E06A6A',

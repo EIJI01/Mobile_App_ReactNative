@@ -50,3 +50,77 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+import React from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text
+} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {AddUserScreen, UserScreen, UserDetail} from './src/testScreen/AddUser/index';
+
+
+
+const Stack = createNativeStackNavigator();
+
+function MyStack() {
+  return (
+  <Stack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: '#0085E6'
+      },
+      headerTintColor: '#ffff',
+      headerTitleStyle: {
+        fontWeight: 'bold'
+      }
+    }}
+  >
+    <Stack.Screen 
+      name='AddUserScreen'
+      component={AddUserScreen}
+      options={{ title: 'Add User'}}
+    />
+    <Stack.Screen 
+      name='UserScreen'
+      component={UserScreen}
+      options={{ title: 'User Screen'}}
+    />
+    <Stack.Screen 
+      name='UserDetail'
+      component={UserDetail}
+      options={{ title: 'User Detail'}}
+    />
+  </Stack.Navigator>
+  )
+}
+
+
+
+const App = () =>  {
+  return (
+    <SafeAreaView style={styles.root}>
+      <NavigationContainer>
+        <MyStack/>
+      </NavigationContainer>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: '#FFEAEA',
+    
+  }
+});
+
+export default App;

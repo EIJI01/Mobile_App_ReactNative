@@ -21,7 +21,7 @@ const style = StyleSheet.create({
     width: '100%',
     borderRadius: 20,
     borderWidth: 1,
-    marginVertical: 5,
+    marginVertical: 7,
   },
   input: {},
 });

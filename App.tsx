@@ -1,24 +1,16 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  Text
+  Text,
+  View,
 } from 'react-native';
-import SignInScreen from './src/screen/SignInScreen';
-
-
+import Navigation from './src/navigation';
 
 const App = () =>  {
   return (
     <SafeAreaView style={styles.root}>
-      <SignInScreen/>
+      <Navigation/>
     </SafeAreaView>
   );
 }
@@ -30,5 +22,4 @@ const styles = StyleSheet.create({
     
   }
 });
-
 export default App;
