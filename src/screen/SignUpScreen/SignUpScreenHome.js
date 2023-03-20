@@ -12,16 +12,21 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import {Text} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
+import {useForm} from 'react-hook-form';
 
 const SignUpScreenHome = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // const [username, setUsername] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  const EMAIL_REGEX = /[a-zA-Z0-9]+@kkumail.com/;
   const {height} = useWindowDimensions();
   const navigation = useNavigation();
+  const {control, handleSubmit, watch} = useForm();
 
-  const onSignInSignUp = () => {
-    console.log('Sign Up');
+  const pwd = watch('password');
+
+  const onSignInSignUp = data => {
+    console.log(data);
   };
   const onBackSignIn = () => {
     console.log('Back Sign In');
@@ -41,33 +46,44 @@ const SignUpScreenHome = () => {
           </View>
           <View style={{marginTop: 10, paddingLeft: 20, paddingRight: 20}}>
             <CustomInput
+              name="username"
               placeholder="    Username"
-              value={username}
-              setValue={setUsername}
+              control={control}
+              rules={{required: 'Username is required'}}
             />
             <CustomInput
+              name="Email"
               placeholder="    Email"
-              value={email}
-              setValue={setEmail}
-              secureTextEntry
+              control={control}
+              rules={{pattern: {value: EMAIL_REGEX, massage: '@kkumail.com'}}}
             />
             <CustomInput
+              name="password"
               placeholder="    Password"
-              value={password}
-              setValue={setPassword}
+              control={control}
+              rules={{
+                required: 'Password is required',
+                minLength: {
+                  value: 3,
+                  message: 'Password should be minimum 3 character long ',
+                },
+              }}
               secureTextEntry
             />
             <CustomInput
+              name="confirmPassword"
               placeholder="    Confirm Password"
-              value={password}
-              setValue={setPassword}
+              control={control}
+              rules={{
+                validate: value => value == pwd || 'Password do not match',
+              }}
               secureTextEntry
             />
           </View>
           <View style={style.button}>
             <CustomButton
               text="Sign Up"
-              onPress={onSignInSignUp}
+              onPress={handleSubmit(onSignInSignUp)}
               bgColor="#FAB5B5"
               fgColor="#DD4D44"
             />

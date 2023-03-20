@@ -5,14 +5,16 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import {Text} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
+import {useForm} from 'react-hook-form';
 
 const SignInScreenOTP = () => {
-  const {password, setPassword} = useState('');
+  // const {password, setPassword} = useState('');
   const {height} = useWindowDimensions();
   const navigation = useNavigation();
+  const {control, handleSubmit} = useForm();
 
-  const onSignInOTPConfirm = () => {
-    console.log('Sign In Confirm');
+  const onSignInOTPConfirm = data => {
+    console.log(data);
   };
   const BackOnSignIn = () => {
     console.log('Back On Sign In');
@@ -33,33 +35,16 @@ const SignInScreenOTP = () => {
         Password
       </Text>
       <View style={style.button}>
-        <CustomInput
-          placeholder=""
-          value={password}
-          setValue={setPassword}
-          secureTextEntry
-        />
-        <CustomInput
-          placeholder=""
-          value={password}
-          setValue={setPassword}
-          secureTextEntry
-        />
-        <CustomInput
-          placeholder=""
-          value={password}
-          setValue={setPassword}
-          secureTextEntry
-        />
-        <CustomInput
-          placeholder=""
-          value={password}
-          setValue={setPassword}
-          secureTextEntry
-        />
+        <CustomInput name="one" placeholder="" control={control} />
+        <CustomInput name="two" placeholder="" control={control} />
+        <CustomInput name="three" placeholder="" control={control} />
+        <CustomInput name="four" placeholder="" control={control} />
       </View>
       <View style={style.button}>
-        <CustomButton text="Confirm" onPress={onSignInOTPConfirm} />
+        <CustomButton
+          text="Confirm"
+          onPress={handleSubmit(onSignInOTPConfirm)}
+        />
         <CustomButton text="back" onPress={BackOnSignIn} />
       </View>
     </View>

@@ -7,22 +7,28 @@ import {
   View,
   ScrollView,
   SafeAreaView,
+  TextInput,
 } from 'react-native';
 import Logo from '../../../assets/images/Logo_3.png';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import Link from '../../components/LinkButton/Link';
 import {useNavigation} from '@react-navigation/native';
+import {useForm} from 'react-hook-form';
 
 const SignInScreenHome = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const {height} = useWindowDimensions();
+  // const [username, setUsername] = useState('');
+  // const [password, setPassword] = useState('');
   const {width} = useWindowDimensions();
   const navigation = useNavigation();
-  const onSignInPress = () => {
-    console.log('Sign In');
-    navigation.navigate('SignIn');
+  const {
+    control,
+    handleSubmit,
+    formState: {error},
+  } = useForm();
+
+  const onSignInPress = data => {
+    console.log(data);
   };
   const forgotPassword = () => {
     Linking.openURL('http://google.com');
@@ -48,17 +54,27 @@ const SignInScreenHome = () => {
             style={[style.logo, {width: width * 1}]}
             resizeMode="contain"
           />
+
           <CustomInput
+            name="username"
             placeholder="    Username"
-            value={username}
-            setValue={setUsername}
+            control={control}
+            rules={{required: 'Username is required'}}
           />
           <CustomInput
+            name="password"
             placeholder="    Password"
-            value={password}
-            setValue={setPassword}
+            control={control}
+            rules={{
+              required: 'Password is required',
+              minLength: {
+                value: 3,
+                message: 'Prassword should be minimum 3 character long ',
+              },
+            }}
             secureTextEntry
           />
+
           <View
             style={{
               flexDirection: 'row',
@@ -66,7 +82,10 @@ const SignInScreenHome = () => {
               paddingRight: 68,
               marginBottom: 10,
             }}>
-            <CustomButton text="Sign In" onPress={onSignInPress} />
+            <CustomButton
+              text="Sign In"
+              onPress={handleSubmit(onSignInPress)}
+            />
             <CustomButton text="Sign UP" onPress={onSignUpPress} />
           </View>
           <View style={{marginBottom: 10}}>
