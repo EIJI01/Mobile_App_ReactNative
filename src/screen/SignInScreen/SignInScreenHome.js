@@ -15,8 +15,8 @@ import CustomButton from '../../components/CustomButton';
 import Link from '../../components/LinkButton/Link';
 import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
-import {createUserWithEmailAndPassword} from 'firebase/auth';
-import {auth, db} from '../../../database/firebaseDB';
+import {auth} from '../../../database/firebaseDB';
+import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 
 const SignInScreenHome = () => {
   // const [username, setUsername] = useState('');
@@ -31,6 +31,20 @@ const SignInScreenHome = () => {
 
   const onSignInPress = data => {
     console.log(data);
+    signInWithEmailAndPassword(auth, data.username, data.password)
+      .then(userCredential => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user.email);
+        // ...
+      })
+      .then(() => {
+        navigation.navigate('Home');
+      })
+      .catch(error => {
+        alert(error.message);
+        console.log(error.code);
+      });
   };
   const forgotPassword = () => {
     Linking.openURL('http://google.com');
@@ -38,9 +52,9 @@ const SignInScreenHome = () => {
   const onSignInGoogle = () => {
     Linking.openURL('http://google.com');
   };
-  const onSignInOTP = () => {
+  const onTelePhoneScreen = () => {
     console.log('Sign In With OTP');
-    navigation.navigate('SignInOTP');
+    navigation.navigate('TelephonScreen');
   };
   const onSignUpPress = () => {
     console.log('Sign Up');
@@ -99,7 +113,7 @@ const SignInScreenHome = () => {
           </View>
           <CustomButton
             text="Sign In OTP"
-            onPress={onSignInOTP}
+            onPress={onTelePhoneScreen}
             bgColor="#FAB5B5"
             fgColor="#DD4D44"
           />

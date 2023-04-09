@@ -1,0 +1,9 @@
+export {default as Kanto} from './Kanto';
+export {default as Hokkaido} from './Hokkaido';
+export {default as Tohoku} from './Tohoku';
+export {default as Chubu} from './Chubu';
+export {default as Kansai} from './Kansai';
+export {default as Chugoku} from './Chugoku';
+export {default as Shikoku} from './Shikoku';
+export {default as Kyushu} from './Kyushu';
+export {default as Okinawa} from './Okinawa';

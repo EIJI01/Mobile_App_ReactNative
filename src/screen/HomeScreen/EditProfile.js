@@ -14,10 +14,10 @@ import {Text} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
 import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
-import {auth, db} from '../../../database/firebaseDB';
-import {doc, setDoc} from 'firebase/firestore/lite';
+import {auth} from '../../../database/firebaseDB';
+// import {collection, doc, getDoc, setDoc} from 'firebase/firestore/lite';
 
-const SignUpScreenHome = () => {
+const EditProfile = () => {
   // const [username, setUsername] = useState('');
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
@@ -27,30 +27,22 @@ const SignUpScreenHome = () => {
   const {control, handleSubmit, watch} = useForm();
   const pwd = watch('password');
   // const [isSignedIn, setIsSignedIn] = useState(false);
-  const onSignInSignUp = async data => {
-    try {
-      console.log(data);
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password,
-      );
-      const user = userCredential.user;
-      console.log(user.email);
-      await setDoc(doc(db, 'react', user.uid), {
-        email: data.email,
-        password: data.password,
-        username: data.username,
+  const onSignInSignUp = data => {
+    console.log(data);
+    createUserWithEmailAndPassword(auth, data.email, data.password)
+      .then(userCredentials => {
+        const user = userCredentials.user;
+        console.log(user.email);
+      })
+      .catch(error => {
+        alert(error.message);
+        console.log(error.code);
       });
-    } catch (error) {
-      alert(error.message);
-      console.log(error.message);
-    }
   };
 
   const onBackSignIn = () => {
     console.log('Back Sign In');
-    navigation.navigate('Home');
+    navigation.navigate('HomeProfile');
   };
   return (
     <SafeAreaView style={style.root}>
@@ -62,7 +54,7 @@ const SignUpScreenHome = () => {
               style={[style.logo, {height: height * 0.3}]}
               resizeMode="contain"
             />
-            <Text style={style.text}>Sign Up</Text>
+            <Text style={style.text}>Edit Profile</Text>
           </View>
           <View style={{marginTop: 10, paddingLeft: 20, paddingRight: 20}}>
             <CustomInput
@@ -70,12 +62,6 @@ const SignUpScreenHome = () => {
               placeholder="    Username"
               control={control}
               rules={{required: 'Username is required'}}
-            />
-            <CustomInput
-              name="email"
-              placeholder="    Email"
-              control={control}
-              rules={{pattern: {value: EMAIL_REGEX, message: '@kkumail.com'}}}
             />
             <CustomInput
               name="password"
@@ -102,7 +88,7 @@ const SignUpScreenHome = () => {
           </View>
           <View style={style.button}>
             <CustomButton
-              text="Sign Up"
+              text="Edit"
               onPress={handleSubmit(onSignInSignUp)}
               bgColor="#FAB5B5"
               fgColor="#DD4D44"
@@ -157,4 +143,4 @@ const style = StyleSheet.create({
     paddingRight: 70,
   },
 });
-export default SignUpScreenHome;
+export default EditProfile;

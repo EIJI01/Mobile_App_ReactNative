@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   StyleSheet,
@@ -13,11 +13,17 @@ import CustomButton from '../../components/CustomButton';
 import {Text} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
-import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
+import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import {auth, db} from '../../../database/firebaseDB';
-import {doc, setDoc} from 'firebase/firestore/lite';
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  getFirestore,
+} from 'firebase/firestore/lite';
 
-const SignUpScreenHome = () => {
+const HomeProfile = () => {
   // const [username, setUsername] = useState('');
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
@@ -27,30 +33,39 @@ const SignUpScreenHome = () => {
   const {control, handleSubmit, watch} = useForm();
   const pwd = watch('password');
   // const [isSignedIn, setIsSignedIn] = useState(false);
-  const onSignInSignUp = async data => {
-    try {
-      console.log(data);
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password,
-      );
-      const user = userCredential.user;
-      console.log(user.email);
-      await setDoc(doc(db, 'react', user.uid), {
-        email: data.email,
-        password: data.password,
-        username: data.username,
-      });
-    } catch (error) {
-      alert(error.message);
-      console.log(error.message);
-    }
-  };
+  // const [currentUser, setCurrentUser] = useState(null);
+
+  // const Auth = auth;
+  // const currentUserUID = auth.currentUser.uid;
+  // const Db = db;
+
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(Auth, user => {
+  //     if (user) {
+  //       setCurrentUser(user);
+  //       const userRef = doc(Db, 'react', currentUserUID);
+  //       getUserData(userRef);
+  //     } else {
+  //       setCurrentUser(null);
+  //     }
+  //   });
+  //   return unsubscribe;
+  // }, []);
+
+  // const getUserData = async userRef => {
+  //   const userData = await getDoc(userRef);
+  //   if (userData.exists()) {
+  //     setCurrentUser(userData.data());
+  //   }
+  // };
 
   const onBackSignIn = () => {
     console.log('Back Sign In');
     navigation.navigate('Home');
+  };
+  const onSignInPress = () => {
+    console.log('EditProfile');
+    navigation.navigate('EditProfile');
   };
   return (
     <SafeAreaView style={style.root}>
@@ -62,48 +77,26 @@ const SignUpScreenHome = () => {
               style={[style.logo, {height: height * 0.3}]}
               resizeMode="contain"
             />
-            <Text style={style.text}>Sign Up</Text>
+            <Text style={style.text}>Profile</Text>
           </View>
-          <View style={{marginTop: 10, paddingLeft: 20, paddingRight: 20}}>
-            <CustomInput
-              name="username"
-              placeholder="    Username"
-              control={control}
-              rules={{required: 'Username is required'}}
-            />
-            <CustomInput
-              name="email"
-              placeholder="    Email"
-              control={control}
-              rules={{pattern: {value: EMAIL_REGEX, message: '@kkumail.com'}}}
-            />
-            <CustomInput
-              name="password"
-              placeholder="    Password"
-              control={control}
-              rules={{
-                required: 'Password is required',
-                minLength: {
-                  value: 3,
-                  message: 'Password should be minimum 3 character long ',
-                },
-              }}
-              secureTextEntry
-            />
-            <CustomInput
-              name="confirmPassword"
-              placeholder="    Confirm Password"
-              control={control}
-              rules={{
-                validate: value => value == pwd || 'Password do not match',
-              }}
-              secureTextEntry
-            />
-          </View>
+          {/* <View>
+            <Text style={style.textShowData}>
+              {`Username       :   `}
+              {currentUser?.username}
+            </Text>
+            <Text style={style.textShowData}>
+              {`Email               :   `}
+              {currentUser?.email}
+            </Text>
+            <Text style={style.textShowData}>
+              {`Password       :   `}
+              {currentUser?.password}
+            </Text>
+          </View> */}
           <View style={style.button}>
             <CustomButton
-              text="Sign Up"
-              onPress={handleSubmit(onSignInSignUp)}
+              text="Edit Profile"
+              onPress={handleSubmit(onSignInPress)}
               bgColor="#FAB5B5"
               fgColor="#DD4D44"
             />
@@ -156,5 +149,11 @@ const style = StyleSheet.create({
     paddingLeft: 70,
     paddingRight: 70,
   },
+  textShowData: {
+    alignSelf: 'flex-start',
+    margin: 10,
+    fontSize: 15,
+    color: '#000000',
+  },
 });
-export default SignUpScreenHome;
+export default HomeProfile;

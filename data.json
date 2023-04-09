@@ -1,0 +1,8 @@
+{
+    "corona209" : [
+        {"name":"china", "confirm":"17439", "death":"362", "cure":"527"},
+        {"name":"Japan", "confirm":"20", "death":"0", "cure":"1"},
+        {"name":"Thailand", "confirm":"19", "death":"0", "cure":"5"},
+        {"name":"Singapore", "confirm":"18", "death":"0", "cure":"0"}
+    ]
+}
